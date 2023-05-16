@@ -9,8 +9,8 @@
             {{ post.body }}
           </p>
           <div class="card-action">
-            <a href="#">Edit</a>
-            <a href="#" class="delete-btn">Delete</a>
+            <a href="#" @click="editPost(post)">Edit</a>
+            <a class="delete-btn" @click="$emit('deletePost', post?.id)">Delete</a>
           </div>
         </div>
       </div>
@@ -40,5 +40,6 @@ export default {
 }
 .delete-btn {
   color: red !important;
+  cursor: pointer;
 }
 </style>

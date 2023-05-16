@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <post-form @postCreated="addPost" />
-    <display-posts :posts="posts" />
+    <display-posts :posts="posts" @deletePost="deletePost" />
   </div>
 </template>
 
@@ -23,6 +23,17 @@ export default {
   methods: {
     addPost(post) {
       this.posts.unshift(post)
+    },
+    editPost(post) {
+      console.log(post)
+    },
+    deletePost(id) {
+      postService
+        .deletePost(id)
+        .then(() => {
+          this.posts = this.posts.filter((p) => p.id !== id)
+        })
+        .catch((err) => console.error(err))
     }
   },
   created() {
@@ -30,7 +41,6 @@ export default {
       .getAllPosts()
       .then((res) => {
         this.posts = res.data
-        console.log(this.posts)
       })
       .catch((err) => console.error(err))
   }

@@ -17,7 +17,7 @@ export default class PostService {
     } else return axios.post('/post', post)
   }
 
-  deletePost(post) {
-    axios.delete(`/post/${id}`)
+  deletePost(id) {
+    return axios.delete(`/post/${id}`)
   }
 }
