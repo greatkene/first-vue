@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <post-form />
+    <post-form @postCreated="addPost" />
     <display-posts :posts="posts" />
   </div>
 </template>
@@ -18,6 +18,11 @@ export default {
   data() {
     return {
       posts: []
+    }
+  },
+  methods: {
+    addPost(post) {
+      this.posts.unshift(post)
     }
   },
   created() {
