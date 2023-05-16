@@ -4,12 +4,12 @@
       <div class="card">
         <div class="card-content">
           <p class="card-title">{{ post?.title }}</p>
-          <p class="timestamp">{{ post?.createdAt }}</p>
+          <p class="timestamp">{{ formatDate(post?.createdAt) }}</p>
           <p>
             {{ post.body }}
           </p>
           <div class="card-action">
-            <a href="#" @click="editPost(post)">Edit</a>
+            <a class="edit-btn" @click="editPost(post)">Edit</a>
             <a class="delete-btn" @click="$emit('deletePost', post?.id)">Delete</a>
           </div>
         </div>
@@ -26,6 +26,19 @@ export default {
       type: Array,
       required: true
     }
+  },
+  methods: {
+    editPost(post) {
+      this.$emit('editPost', post)
+    },
+    formatDate(date) {
+      const formattedDate = new Date(date)
+      const day = formattedDate.getDate()
+      const month = formattedDate.getMonth() + 1
+      const year = formattedDate.getFullYear()
+
+      return `${day}-${month}-${year}`
+    }
   }
 }
 </script>
@@ -37,6 +50,9 @@ export default {
 .card .card-content p.timestamp {
   color: #999;
   margin-bottom: 10px;
+}
+.edit-btn {
+  cursor: pointer;
 }
 .delete-btn {
   color: red !important;

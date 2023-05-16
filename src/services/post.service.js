@@ -7,14 +7,12 @@ export default class PostService {
     return axios.get('/posts')
   }
 
-  getPosts(number) {
-    return axios.get(`/posts/${number}`)
-  }
-
   writePost(post) {
     if (post.id) {
-      return axios.put(`/post/${id}`, post)
-    } else return axios.post('/post', post)
+      return axios.put(`/post/${post.id}`, post)
+    } else {
+      return axios.post('/post', post)
+    }
   }
 
   deletePost(id) {

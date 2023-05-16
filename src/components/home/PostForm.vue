@@ -16,11 +16,11 @@
         type="text"
         name="body"
         v-model="body"
-        :class="[errors.title ? 'invalid' : 'validate']"
+        :class="[errors.body ? 'invalid' : 'validate']"
       />
       <span class="helper-text" data-error="Body must not be empty"></span>
     </div>
-    <button type="submit" class="waves-effect waves-light btn">Add</button>
+    <button type="submit" class="waves-effect waves-light btn">{{ id ? 'Update' : 'Add' }}</button>
   </form>
   <loader v-else-if="loading" />
 </template>
@@ -34,11 +34,15 @@ const postService = new PostService()
 export default {
   components: { Loader },
   name: 'PostForm',
+  props: {
+    editingPost: Object
+  },
   data() {
     return {
       loading: false,
       title: '',
       body: '',
+      id: null,
       errors: {}
     }
   },
@@ -51,7 +55,8 @@ export default {
       }
       const post = {
         title: this.title,
-        body: this.body
+        body: this.body,
+        id: this.id
       }
       postService
         .writePost(post)
@@ -76,6 +81,13 @@ export default {
       } else {
         return true
       }
+    }
+  },
+  watch: {
+    editingPost(post) {
+      this.title = post.title
+      this.body = post.body
+      this.id = post.id
     }
   }
 }

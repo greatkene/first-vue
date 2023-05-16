@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <post-form @postCreated="addPost" />
-    <display-posts :posts="posts" @deletePost="deletePost" />
+    <post-form @postCreated="addPost" :editingPost="editingPost" />
+    <display-posts :posts="posts" @deletePost="deletePost" @editPost="editPost" />
   </div>
 </template>
 
@@ -17,15 +17,19 @@ export default {
   name: 'Home',
   data() {
     return {
-      posts: []
+      posts: [],
+      editingPost: null
     }
   },
   methods: {
     addPost(post) {
-      this.posts.unshift(post)
+      if (this.posts.find((p) => p.id === post.id)) {
+        const index = this.posts.findIndex((p) => p.id === post.id)
+        this.posts.splice(index, 1, post)
+      } else this.posts.unshift(post)
     },
     editPost(post) {
-      console.log(post)
+      this.editingPost = { ...post }
     },
     deletePost(id) {
       postService
@@ -46,5 +50,3 @@ export default {
   }
 }
 </script>
-
-
